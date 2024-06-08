@@ -1,0 +1,1 @@
+ return `The ${this.name} is speaking ${this.speak} ${this.speak}`;
