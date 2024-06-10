@@ -16,6 +16,9 @@
 function calculateTotalSpentByCategory(transactions) {
   const totalSpentByCategory = transactions.reduce(reducer, {});
 
+  /*
+  Object.entries() is a method that returns an array of a given object's own enumerable string-keyed property [key, value] pairs.
+  */
   return Object.entries(totalSpentByCategory).map(([category, totalSpent]) => ({
     category,
     totalSpent,

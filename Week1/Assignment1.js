@@ -24,3 +24,20 @@ function measureTimeout(callback) {
 measureTimeout((time) => {
   console.log(`Time elapsed: ${time} milliseconds`);
 });
+
+function swap(a, b, callback) {
+  let x = a;
+  let y = b;
+  callback(x, y);
+}
+
+let a = 2;
+let b = 3;
+console.log(`Before Swapping:\na = ${a} | b = ${b}`);
+
+swap(a, b, (newa, newb) => {
+  a = newb;
+  b = newa;
+});
+
+console.log(`After Swapping:\na = ${a} | b = ${b}`);
