@@ -11,9 +11,9 @@ app.use(bodyParser.json());
 
 app.post("/", (req, res) => {
   // req: request and res: response
-  //const msg = req.body.message;
+  const msg = req.body.message;
   // another way to sent mesage is through query parameters
-  const msg = req.query.message;
+  // const msg = req.query.message;
   console.log(msg);
   res.json({
     output: "2 + 2 = 4",

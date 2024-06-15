@@ -1,5 +1,11 @@
 {
   "terminal.integrated.env.windows": {
     "PATH": "C:\\Program Files\\nodejs;${env:PATH}"
-  }
+  },
+  "terminal.integrated.cwd": "${fileDirname}",
+  "window.openFilesInNewWindow": "off",
+  "window.restoreWindows": "all",
+  "files.hotExit": "onExitAndWindowClose",
+  "remote.SSH.showLoginTerminal": true,
+  "codium.codeCompletion.enable": true
 }

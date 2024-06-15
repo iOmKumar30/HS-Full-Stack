@@ -17,5 +17,31 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+app.get('/files', function (req, res) {
+  fs.readdir("/mnt/o/STUDY MATERIALS/HARKIRAT FULL STACK/Week2/Assignments/02-nodejs/files", function (err, files){
+    if (err) {
+      return res.status(500).json({ error: 'Failed to retrieve files' });
+    }
+    else {
+      res.json(files);
+    }
+  });
+})
+
+app.get('/file/:filename', function (req, res) {
+  const filepath = path.join(__dirname, './files/', req.params.filename);
+
+  fs.readFile(filepath, 'utf8', (err, data) => {
+  if (err) {
+      return res.status(404).send('File not found');
+  }
+  res.send(data);
+  });
+});
+
+// The code snippet app.all('*', (req, res) => { res.status(404).send('Route not found'); }); is used in an Express.js application to handle all unmatched routes.
+app.all('*', function (err, res) {
+  res.status(404).send('Route not found');
+})
 
 module.exports = app;
