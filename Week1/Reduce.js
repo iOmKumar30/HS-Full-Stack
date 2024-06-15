@@ -1,5 +1,6 @@
-// Reduce function is used to reduce an array to a single value
-// for example if we have an array of numbers, we can reduce it to a single number by adding them up or any other operation
+// Reduce function is used to reduce an array to a single value for example if
+// we have an array of numbers, we can reduce it to a single number by adding
+// them up or any other operation
 
 const arr = [9, 7, 3, 4, 2, -6, -4, -2, -3, -1];
 const sum = arr.reduce(function (accumulator, currentValue) {
@@ -54,5 +55,4 @@ const output = users.reduce(function (acc, curr) {
     acc.push(curr.firstname);
     }
     return acc;
-}, []);
-console.log("Age less than 30:", output);
+}, []); console.log("Age less than 30:", output);
