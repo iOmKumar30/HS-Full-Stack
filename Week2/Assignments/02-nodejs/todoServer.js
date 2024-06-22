@@ -39,11 +39,69 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let todos = [];
+
+app.get("/todos", (req, res) => {
+  res.json(todos);
+});
+
+/*req.params is an object containing properties mapped to the named route parameters. For example, if you have a route defined as /todos/:id, the :id part is a route parameter, and its value will be available in req.params.id. This allows you to access the value of a route parameter in your code.*/
+app.get("/todos/:id", (req, res) => {
+  const todo = todos.find((t) => t.id === parseInt(req.params.id));
+  if (!todo) {
+    res.status(404).send("404 error not found!");
+  } else {
+    res.json(todo);
+  }
+});
+
+app.post("/todos", (req, res) => {
+  const newTodo = {
+    id: floor(Math.random() * 1000000),
+    title: req.body.title,
+    description: req.body.description,
+    completed: req.body.completed || false,
+  };
+  todos.push(newTodo);
+  res.status(201).json(newTodo.id);
+});
+
+app.put("/todos/:id", (req, res) => {
+  const todoIndex = todos.findIndex((t) => t.id === parseInt(req.params.id));
+  if (todoIndex === -1) {
+    res.status(404).send();
+  } else {
+    todos[todoIndex].title = req.body.title || todos[todoIndex].title;
+    todos[todoIndex].description =
+      req.body.description || todos[todoIndex].description;
+    todos[todoIndex].completed = req.body.completed;
+    res.json(todos[todoIndex]);
+  }
+});
+app.delete("/todos/:id", (req, res) => {
+  const todoIndex = todos.findIndex((t) => t.id === parseInt(req.params.id));
+  if (todoIndex === -1) {
+    res.status(404).send();
+  } else {
+    // splice is used to remove n number of elements from an array from index i 
+    todos.splice(todoIndex, 1);
+    res.status(200).send();
+  }
+});
+
+// for all other routes, return 404
+app.use((req, res, next) => {
+  res.status(404).send();
+});
+
+app.listen(3000, () => {
+  console.log("Server started on port 3000");
+});
+module.exports = app;

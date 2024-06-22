@@ -45,8 +45,14 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-function userExists(username, password) {
-  // should check in the database
+async function userExists(username, password) {
+  try {
+    const user = await User.findOne({ username: username, password: password });
+    return !!user; // Returns true if user exists, false if user is null (not found) converts object to boolean
+  } catch (err) {
+    console.error("Error checking user existence:", err);
+    return false; // Return false in case of an error
+  }
 }
 
 app.post("/signin", async function (req, res) {
@@ -59,18 +65,22 @@ app.post("/signin", async function (req, res) {
     });
   }
 
-  var token = jwt.sign({ username: username }, "shhhhh");
+  var token = jwt.sign({ username: username }, jwtPassword);
   return res.json({
     token,
   });
 });
 
-app.get("/users", function (req, res) {
+app.get("/users", async function (req, res) {
   const token = req.headers.authorization;
   try {
     const decoded = jwt.verify(token, jwtPassword);
     const username = decoded.username;
-    // return a list of users other than this username from the database
+    const allUsers = await User.find(); // Fetch all users from MongoDB
+    
+    res.json({
+        users: allUsers.filter(user => user.username !== username)
+    });
   } catch (err) {
     return res.status(403).json({
       msg: "Invalid token",
@@ -78,4 +88,6 @@ app.get("/users", function (req, res) {
   }
 });
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
