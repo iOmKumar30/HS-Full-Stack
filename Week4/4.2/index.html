@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--here we will create a todo app that will have two input boxes, title box and description box and an add todo button, then we will have a list of todos and a mark done button for each one of them and every time we add a todo it will get appended to the list-->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: scroll;
+        }
+
+        h1 {
+            color: white;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px #000000;
+        }
+
+        #title,
+        #description {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff6f61;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #ff3f3f;
+        }
+
+        button:active {
+            transform: scale(1.1);
+        }
+
+        .todo {
+            background-color: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .todo.done {
+            background-color: #d4edda;
+        }
+
+        .todo.done .title,
+        .todo.done .description {
+            text-decoration: line-through;
+        }
+
+        .number {
+            font-weight: bold;
+        }
+
+        .title {
+            font-weight: bold;
+        }
+
+        .markDone,
+        .delete {
+            margin-top: 10px;
+        }
+
+        .markDone.done {
+            background-color: green;
+        }
+
+        #todos {
+            width: 400px;
+            max-height: 400px;
+            text-align: center;
+        }
+
+        #header {
+            background-color: #ff6f61;
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <h1>TODO LIST APP</h1>
+    </div>
+    <input type="text" id="title" placeholder="Enter title">
+    <input type="text" id="description" placeholder="Enter description">
+    <button type="button" onclick="addTodo()">Add Todo</button>
+    <div id="todos">
+        <h1>TODO List</h1>
+    </div>
+
+    <script>
+        let todoCount = 0;
+
+        function addTodo() {
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            if (title.trim() === '' || description.trim() === '') {
+                alert('Both title and description are required!');
+                return;
+            }
+
+            createTodo(title, description);
+
+            // clear the input boxes
+            document.getElementById('title').value = '';
+            document.getElementById('description').value = '';
+
+            // get the focus back on to the title
+            document.getElementById('title').focus();
+        }
+
+        function createTodo(title, description) {
+            todoCount++;
+            // create a todo box
+            const todo = document.createElement('div');
+            todo.classList.add('todo');
+
+            // create a serial number to our todo and append it to our todo box
+            const numberElement = document.createElement('span');
+            numberElement.classList.add('number');
+            numberElement.innerText = todoCount + '. ';
+            todo.appendChild(numberElement);
+
+            // then create a title element and append it to our todo box
+            const titleElement = document.createElement('p');
+            titleElement.classList.add('title');
+            titleElement.innerText = title;
+            todo.appendChild(titleElement);
+
+            // then create a description element and append it to our todo box
+            const descriptionElement = document.createElement('p');
+            descriptionElement.classList.add('description');
+            descriptionElement.innerText = description;
+            todo.appendChild(descriptionElement);
+
+            // then create a mark done button
+            const markDoneButton = document.createElement('button');
+            markDoneButton.innerText = 'Mark Done';
+            markDoneButton.classList.add('markDone');
+            todo.appendChild(markDoneButton);
+
+            // then create a delete button
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Delete';
+            deleteButton.classList.add('delete');
+            todo.appendChild(deleteButton);
+
+            // finally append our todo box to our todo list
+            document.getElementById('todos').appendChild(todo);
+
+            markDoneButton.onclick = function () {
+                if (this.innerText === 'Mark Done') {
+                    this.parentNode.classList.add('done'); // to change the bg color of the todo box
+                    this.innerText = 'Undo!';
+                    this.classList.add('done'); // to change the bg color of the markDone button
+                } else { // Mark Done button change to "Mark Done" with a original background upon another click.
+                    this.parentNode.classList.remove('done');
+                    this.innerText = 'Mark Done';
+                    this.classList.remove('done');
+                }
+            }
+
+            deleteButton.onclick = function () {
+                this.parentNode.remove(); // delete the parentNode of deleteButton i.e. the "todo"
+                // Re-number the remaining todos
+                const todos = document.querySelectorAll('.todo');
+                todoCount = 0;
+                todos.forEach((todo) => {
+                    todoCount++;
+                    todo.querySelector('.number').innerText = todoCount + '. ';
+                });
+            }
+        }
+
+        document.getElementById('title').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById('description').focus();
+            }
+        });
+
+        document.getElementById('description').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                addTodo();
+            }
+        });
+
+        window.onload = function () {
+            document.getElementById('title').focus();
+        }
+    </script>
+</body>
+
+</html>
+
+
+<!--Ugly way for doing the above 
+function addTodo(){
+    var title = document.getElementById('title').value;
+    var description = document.getElementById('description').value;
+    var original = document.getElementById("todos").innerHTML;
+
+    document.getElementById("todos").innerHTML = original + `<div>
+        <div>${title}</div>
+        <div>${description}</div>
+        <button onclick="markDone(this)">Mark Done</button>
+        <button onclick="delete(this)">Delete</button>
+    </div>`
+}
+-->

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter without State</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <button id="counter" onclick="increment()">Count 0</button>
+    <script>
+        function increment() {
+            let text = document.getElementById("counter").innerHTML.split(" ")[1];
+            let count = parseInt(text);
+            const newCount = count + 1;
+            document.getElementById("counter").innerHTML = `Count ${newCount}`
+        }
+    </script>
+</body>
+
+</html>

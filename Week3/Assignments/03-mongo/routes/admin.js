@@ -1,11 +1,11 @@
 const express = require("express");
-const app = express();
-app.use(express.json());
 const adminMiddleware = require("../middleware/admin");
+const { Admin } = require("../db");
 const { Course } = require("../db");
+const router = express.Router();
 
 // Admin Routes
-app.post("/signup", async (req, res) => {
+router.post("/signup", async (req, res) => {
   const { username, password } = req.body;
   const u1 = new Admin({
     username: username,
@@ -28,7 +28,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.post("/courses", adminMiddleware, async (req, res) => {
+router.post("/courses", adminMiddleware, async (req, res) => {
   const { title, description, imageLink, price } = req.body;
   const newCourse = await Course.create({
     title: title,
@@ -42,13 +42,11 @@ app.post("/courses", adminMiddleware, async (req, res) => {
   });
 });
 
-app.get("/courses", adminMiddleware, (req, res) => {
-  const allCourses = Course.find({});
+router.get("/courses", adminMiddleware, async (req, res) => {
+  const allCourses = await Course.find({});
   res.json({
     courses: allCourses,
   });
 });
 
-app.listen(3000, () => {
-  console.log("Listening on port 3000");
-});
+module.exports = router;

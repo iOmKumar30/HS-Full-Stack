@@ -1,52 +1,60 @@
 const express = require("express");
-const app = express();
-app.use(express.json())
 const userMiddleware = require("../middleware/user");
+const { User } = require("../db");
+const { Course } = require("../db");
+const router = express.Router();
 
 // User Routes
-app.post("/signup", (req, res) => {
+router.post("/signup", async (req, res) => {
   const { username, password } = req.body;
-  User.create({
+  await User.create({
     username,
     password,
+    purchasedCourses: [], // Initialize with an empty array
   });
   res.json({
     message: "User created successfully",
   });
 });
 
-app.get("/courses", async (req, res) => {
+router.get("/courses", async (req, res) => {
   const response = await Course.find({});
-
   res.json({
     courses: response,
   });
 });
 
-app.post("/courses/:courseId", userMiddleware, (req, res) => {
+router.post("/courses/:courseId", userMiddleware, async (req, res) => {
   const courseId = req.params.courseId;
-  // find the username to add the purchased course to the user
   const username = req.headers.username;
 
-  User.updateOne(
+  const course = await Course.findById(courseId);
+  if (!course) {
+    return res.status(404).json({
+      message: "Course not found",
+    });
+  }
+
+  // Update the user's purchasedCourses array with the full course object
+  await User.updateOne(
     { username: username },
-    { $push: { purchasedCourses: courseId } }
+    {
+      $push: { purchasedCourses: course },
+    }
   );
+
   res.json({
     message: "Course purchased successfully",
   });
 });
 
-app.get("/purchasedCourses", userMiddleware, (req, res) => {
+router.get("/purchasedCourses", userMiddleware, async (req, res) => {
   const username = req.headers.username;
+  const user = await User.findOne({ username: username });
 
-  User.findOne({ username: username }).then((user) => {
-    res.json({
-      purchasedCourses: user.purchasedCourses,
-    });
+  res.json({
+    purchasedCourses: user.purchasedCourses,
   });
 });
 
-app.listen(3001, () => {
-  console.log("Server listening on port 3001");
-});
+module.exports = router;
