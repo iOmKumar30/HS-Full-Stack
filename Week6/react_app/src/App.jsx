@@ -4,17 +4,25 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
+  const [title, setTitle] = useState("Header 1");
+  function updateTitle() {
+    setTitle(Math.random());
+  }
   return (
-    <>
+    <div>
       {/* we can put an empty <> instead of <div> as parent element */}
-      <Header title="Header 1" />
+      <button onClick={updateTitle}>Update the title</button>
+      <Header title={title} />
       <Header title="Header 2" />
-    </>
+      <Header title="Header 3" />
+      <Header title="Header 4" />
+      <Header title="Header 5" />
+    </div>
   );
 }
 
 function Header({ title }) {
-  return <div>{title}</div>;
+  return <div>I am {title}</div>;
 }
 
 export default App;
