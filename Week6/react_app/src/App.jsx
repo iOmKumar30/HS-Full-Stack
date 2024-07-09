@@ -5,54 +5,41 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      title: "Go to gym",
-      description: "Go to gym from 7-9",
-    },
-    {
-      id: 2,
-      title: "Study DSA",
-      description: "Study DSA form 9-10",
-    },
-    {
-      id: 3,
-      title: "Cook dinner",
-      description: "Cook chicken rice for dinner",
-    },
-  ]);
-
-  return (
-    <div>
-      <h1>All Todos</h1>
-      {todos.map((todo) => (
-        <Todo key={todo.id} title={todo.title} description={todo.description} />
-      ))}
-      <br />
-      <h1>Add Todo</h1>
-      {/* Everytime the button is clicked a new random TODO will be added */}
-      <button onClick={addTodo}>Tap to Add</button>
-    </div>
-  );
-
-  function addTodo() {
-    setTodos([
-      ...todos,
-      {
-        id: todos.length + 1,
-        title: Math.random().toString(36).substring(3),
-        description: Math.random().toString(36).substring(3),
-      },
-    ]);
+  function TextComponent({ str }) {
+    return (
+      <div>
+        <h1>{str}</h1>
+      </div>
+    );
   }
-}
 
-function Todo({ title, description }) {
+  /* Here, componentProps is passed as an object containing the prop str that the TextComponent expects. The spread operator {...componentProps} is used to pass all the properties in componentProps as props to Component. */
+  function CardWrapper({ Component, componentProps }) {
+    return (
+      <div style={{ border: "1px solid black", padding: "10px", margin: "10px", maxWidth: "300px", maxheight: "300px", textAlign: "center", boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "5px", fontFamily: "Arial, sans-serif" }}>
+        <Component {...componentProps} />
+      </div>
+    );
+  }
+
   return (
     <div>
-      <h2>{title}</h2>
-      <h5>{description}</h5>
+      <CardWrapper
+        Component={TextComponent}
+        componentProps={{ str: "Hello World" }}
+      />
+      <CardWrapper
+        Component={TextComponent}
+        componentProps={{ str: "Hello World 2" }}
+      />
+      <CardWrapper
+        Component={TextComponent}
+        componentProps={{ str: "Hello World 3" }}
+      />
+      <CardWrapper
+        Component={TextComponent}
+        componentProps={{ str: "Hello World 4" }}
+      />
     </div>
   );
 }
