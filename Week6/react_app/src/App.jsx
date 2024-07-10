@@ -9,14 +9,16 @@ import "./App.css";
 * The parent component should have a button, clicking on which the next 
 todo is fetched */
 function App() {
-  const [id, setId] = useState(1);
-  if (id == 6) {
-    setId(1);
-  }
+  const [id, setId] = useState(0);
+
   return (
     <div>
-      <button onClick={() => setId(id + 1)}>Next</button>
-      <Todo id={id} />
+      <button onClick={() => setId(1)}>1</button>
+      <button onClick={() => setId(2)}>2</button>
+      <button onClick={() => setId(3)}>3</button>
+      <button onClick={() => setId(4)}>4</button>
+      <button onClick={() => setId(5)}>5</button>
+      {id > 0 && <Todo id={id} />}
     </div>
   );
 }
