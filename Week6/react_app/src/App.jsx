@@ -18,6 +18,8 @@ function App() {
       <button onClick={() => setId(3)}>3</button>
       <button onClick={() => setId(4)}>4</button>
       <button onClick={() => setId(5)}>5</button>
+      <br />
+      id : {id}
       {id > 0 && <Todo id={id} />}
     </div>
   );
