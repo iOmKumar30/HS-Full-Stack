@@ -1,28 +1,40 @@
-import { useEffect, useState, useMemo } from "react";
+import { useState } from "react";
 import React from "react";
-import axios from "axios";
 import "./App.css";
 
-/* Task:
-Create an app that has two components:
-* an input box that takes a number and renders sum of 1 to that number
-* a counter that increments normally on clicking but also increments whenever there is a change in the input box\
- */
 function App() {
   const [counter, setCounter] = useState(0);
   const [num, setNum] = useState(0);
+
   return (
     <div>
       <input
         type="text"
+        placeholder="Enter number to calculate sum"
+        style={{
+          width: "300px",
+          height: "30px",
+          fontSize: "20px",
+          padding: "5px",
+          margin: "10px",
+          borderRadius: "5px",
+        }}
         onChange={(e) => {
-          setNum(e.target.value);
-          setCounter(counter + 1);
+          const value = parseInt(e.target.value);
+          if (!isNaN(value)) {
+            setNum(value);
+            setCounter(counter + 1);
+          }
         }}
       />
       <br />
-      Sum is {(parseInt(num) * (parseInt(num) + 1)) / 2} <br />
-      <button onClick={() => setCounter(counter + 1)}>Counter {counter}</button>
+      {num > 0 && (
+        <>
+          <span style={{ fontSize: "20px", margin: "10px" }}>Sum of 1 to {num} is : {(num * (num + 1)) / 2}</span> <br />
+          <style> font-size: 20px</style>
+        </>
+      )}
+      <button style={{ fontSize: "20px", padding: "5px", margin: "10px", borderRadius: "5px", cursor: "pointer", backgroundColor: "magenta", color: "white",}} onClick={() => setCounter(counter + 1)}>Counter {counter}</button>
     </div>
   );
 }
