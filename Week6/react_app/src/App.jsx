@@ -4,19 +4,23 @@ import "./App.css";
 
 function App() {
   const [counter, setCounter] = useState(0);
-  /* 
+  
   var a = useCallback(() => {
     console.log("a");
   }, []);
- */
-  /*  var a = {
+
+/*   var a = () => {
+    console.log("a");
+  } */
+
+/*    var a = {
     sum: 1
   } */
 
   /* un-comment each to see the difference on console */
-  var a = useCallback(() => {
+ /*  var a = useCallback(() => {
     sum: 100;
-  }, []);
+  }, []); */
   return (
     <div>
       <button onClick={() => setCounter(counter + 1)}>Counter {counter}</button>
