@@ -1,0 +1,77 @@
+.card-wrapper {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  position: relative;
+  font-family: Arial, sans-serif;
+  border: 2px solid #333;
+}
+
+.card-wrapper h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.card-wrapper span {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #666;
+}
+
+.card-wrapper h3 {
+  margin-top: 15px;
+  font-size: 1.2rem;
+  color: #444;
+}
+
+.card-wrapper ul {
+  padding-left: 20px;
+}
+
+.card-wrapper li {
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.card-wrapper button {
+  margin-right: 10px;
+  padding: 10px 12px;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #1b8dea;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.card-wrapper button:active {
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.card-wrapper button:last-child {
+  background-color: #1da1f2;
+}
+
+.card-wrapper button:hover {
+  opacity: 0.8;
+}
+
+.card-wrapper .profile-photo {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+}
