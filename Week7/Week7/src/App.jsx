@@ -1,35 +1,39 @@
-import React, { Suspense } from "react";
+import React, { useContext, useState } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-// lets simulate a slower network to actually see the "Loading..."
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
-// Lazy load the components
-const Landing = React.lazy(() =>
-  delay(3000).then(() => import("./Components/Landing"))
-);
-const Dashboard = React.lazy(() =>
-  delay(3000).then(() => import("./Components/Dashboard"))
-);
-
+import { CountContext } from "./context";
 function App() {
-  return (
-    <>
-      <div>
-        <h1>Hi This is the Top Bar</h1>
-      </div>
+  const [count, setCount] = useState(0);
 
-      <BrowserRouter>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/" element={<Landing />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </>
+  return (
+    <div>
+      <CountContext.Provider value={count}>
+        <Count setCount={setCount} />
+      </CountContext.Provider>
+    </div>
   );
+}
+function Count({ setCount }) {
+  return (
+    <div>
+      <CountRenderer />
+      <Button setCount={setCount} />
+    </div>
+  );
+}
+
+function Button({ setCount }) {
+  const count = useContext(CountContext);
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => setCount(count - 1)}>Decrement</button>
+    </div>
+  );
+}
+
+function CountRenderer() {
+  const count = useContext(CountContext);
+  return <div>{count}</div>;
 }
 
 export default App;
