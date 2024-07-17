@@ -15,7 +15,7 @@ function App() {
 function EvenRenderer() {
   const isEven = useRecoilValue(evenCount);
   const count = useRecoilValue(countAtom);
-  return <div>{isEven ? `${count} is even` : null}</div>;
+  return <div>{isEven ? `${count} is even=` : null}</div>;
 }
 function Count() {
   return (
