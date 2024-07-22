@@ -6,7 +6,7 @@ export const notifications = atom({
   default: selector({
     key: "networkAtomSelector",
     get: async () => {
-      //await new Promise(r => setTimeout(r, 5000)); // it is used to create a delay knowingly
+      await new Promise(r => setTimeout(r, 5000)); // it is used to create a delay knowingly
       try {
         const response = await axios.get("https://sum-server.100xdevs.com/notifications");
         return response.data || {};  // Ensure it returns an empty object if data is undefined or null
